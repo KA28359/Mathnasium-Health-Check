@@ -1,0 +1,430 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		246AADA151BEA2846253173A /* Pods_Mathnasium_Health_Check.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7016399602E669A4853FBBE1 /* Pods_Mathnasium_Health_Check.framework */; };
+		CA19B44B2676D154008030D0 /* mhcapp-315117-73a230394ec8.json in Resources */ = {isa = PBXBuildFile; fileRef = CA19B44A2676D154008030D0 /* mhcapp-315117-73a230394ec8.json */; };
+		CA55479926719EED00BF4082 /* Mathnasium_Health_CheckApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */; };
+		CA55479B26719EED00BF4082 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55479A26719EED00BF4082 /* ContentView.swift */; };
+		CA55479D26719EEE00BF4082 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA55479C26719EEE00BF4082 /* Assets.xcassets */; };
+		CA5547A026719EEE00BF4082 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA55479F26719EEE00BF4082 /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7016399602E669A4853FBBE1 /* Pods_Mathnasium_Health_Check.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mathnasium_Health_Check.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6F9DD8047348B3BD1503FF1 /* Pods-Mathnasium Health Check.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mathnasium Health Check.release.xcconfig"; path = "Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check.release.xcconfig"; sourceTree = "<group>"; };
+		CA19B44A2676D154008030D0 /* mhcapp-315117-73a230394ec8.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "mhcapp-315117-73a230394ec8.json"; path = "Mathnasium Health Check/mhcapp-315117-73a230394ec8.json"; sourceTree = "<group>"; };
+		CA55479526719EED00BF4082 /* Mathnasium Health Check.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mathnasium Health Check.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mathnasium_Health_CheckApp.swift; sourceTree = "<group>"; };
+		CA55479A26719EED00BF4082 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CA55479C26719EEE00BF4082 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CA55479F26719EEE00BF4082 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CA5547A126719EEE00BF4082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F266F053204618A8FEB90E41 /* Pods-Mathnasium Health Check.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mathnasium Health Check.debug.xcconfig"; path = "Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CA55479226719EED00BF4082 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				246AADA151BEA2846253173A /* Pods_Mathnasium_Health_Check.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		61187D3EA373BE2A54EFA4D3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F266F053204618A8FEB90E41 /* Pods-Mathnasium Health Check.debug.xcconfig */,
+				C6F9DD8047348B3BD1503FF1 /* Pods-Mathnasium Health Check.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B5BDD28A3E5CA8AE70C53E8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7016399602E669A4853FBBE1 /* Pods_Mathnasium_Health_Check.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA55478C26719EED00BF4082 = {
+			isa = PBXGroup;
+			children = (
+				CA19B44A2676D154008030D0 /* mhcapp-315117-73a230394ec8.json */,
+				CA55479726719EED00BF4082 /* Mathnasium Health Check */,
+				CA55479626719EED00BF4082 /* Products */,
+				61187D3EA373BE2A54EFA4D3 /* Pods */,
+				B5BDD28A3E5CA8AE70C53E8F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CA55479626719EED00BF4082 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA55479526719EED00BF4082 /* Mathnasium Health Check.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CA55479726719EED00BF4082 /* Mathnasium Health Check */ = {
+			isa = PBXGroup;
+			children = (
+				CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */,
+				CA55479A26719EED00BF4082 /* ContentView.swift */,
+				CA55479C26719EEE00BF4082 /* Assets.xcassets */,
+				CA5547A126719EEE00BF4082 /* Info.plist */,
+				CA55479E26719EEE00BF4082 /* Preview Content */,
+			);
+			path = "Mathnasium Health Check";
+			sourceTree = "<group>";
+		};
+		CA55479E26719EEE00BF4082 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CA55479F26719EEE00BF4082 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CA55479426719EED00BF4082 /* Mathnasium Health Check */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA5547A426719EEE00BF4082 /* Build configuration list for PBXNativeTarget "Mathnasium Health Check" */;
+			buildPhases = (
+				CB7FD397AF421009C85F73BD /* [CP] Check Pods Manifest.lock */,
+				CA55479126719EED00BF4082 /* Sources */,
+				CA55479226719EED00BF4082 /* Frameworks */,
+				CA55479326719EED00BF4082 /* Resources */,
+				2DD13BEB2A8A6D8BF89E1FE6 /* [CP] Embed Pods Frameworks */,
+				D0941C0162794B0DB83F23A1 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Mathnasium Health Check";
+			productName = "Mathnasium Health Check";
+			productReference = CA55479526719EED00BF4082 /* Mathnasium Health Check.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CA55478D26719EED00BF4082 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					CA55479426719EED00BF4082 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+				};
+			};
+			buildConfigurationList = CA55479026719EED00BF4082 /* Build configuration list for PBXProject "Mathnasium Health Check" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CA55478C26719EED00BF4082;
+			productRefGroup = CA55479626719EED00BF4082 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CA55479426719EED00BF4082 /* Mathnasium Health Check */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CA55479326719EED00BF4082 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA19B44B2676D154008030D0 /* mhcapp-315117-73a230394ec8.json in Resources */,
+				CA5547A026719EEE00BF4082 /* Preview Assets.xcassets in Resources */,
+				CA55479D26719EEE00BF4082 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2DD13BEB2A8A6D8BF89E1FE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB7FD397AF421009C85F73BD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mathnasium Health Check-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0941C0162794B0DB83F23A1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CA55479126719EED00BF4082 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA55479B26719EED00BF4082 /* ContentView.swift in Sources */,
+				CA55479926719EED00BF4082 /* Mathnasium_Health_CheckApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CA5547A226719EEE00BF4082 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CA5547A326719EEE00BF4082 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CA5547A526719EEE00BF4082 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F266F053204618A8FEB90E41 /* Pods-Mathnasium Health Check.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Mathnasium Health Check/Preview Content\"";
+				DEVELOPMENT_TEAM = HX3UJDPMYQ;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "Mathnasium Health Check/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kaguilar.Mathnasium-Health-Check";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		CA5547A626719EEE00BF4082 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6F9DD8047348B3BD1503FF1 /* Pods-Mathnasium Health Check.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Mathnasium Health Check/Preview Content\"";
+				DEVELOPMENT_TEAM = HX3UJDPMYQ;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "Mathnasium Health Check/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kaguilar.Mathnasium-Health-Check";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA55479026719EED00BF4082 /* Build configuration list for PBXProject "Mathnasium Health Check" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA5547A226719EEE00BF4082 /* Debug */,
+				CA5547A326719EEE00BF4082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA5547A426719EEE00BF4082 /* Build configuration list for PBXNativeTarget "Mathnasium Health Check" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA5547A526719EEE00BF4082 /* Debug */,
+				CA5547A626719EEE00BF4082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CA55478D26719EED00BF4082 /* Project object */;
+}

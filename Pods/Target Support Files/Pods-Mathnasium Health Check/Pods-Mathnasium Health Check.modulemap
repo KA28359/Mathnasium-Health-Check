@@ -1,0 +1,6 @@
+framework module Pods_Mathnasium_Health_Check {
+  umbrella header "Pods-Mathnasium Health Check-umbrella.h"
+
+  export *
+  module * { export * }
+}
