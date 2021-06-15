@@ -5,8 +5,8 @@
 //  Created by Kevin Aguilar on 6/9/21.
 //
 
-//TODO: Auto sign in
-//      Check if cell is already taken
+//TODO: Auto sign in *
+//      Check if cell is already taken *
 //      UI
 //      Custom input
 
@@ -32,24 +32,101 @@ let header = Header(kid: "73a230394ec8510f11a82ffc7d94cf371d0e0b04")
 
 let jwt = JWT(header: header, claims: MyClaims(iss: "admin1@mhcapp-315117.iam.gserviceaccount.com", sub: "admin1@mhcapp-315117.iam.gserviceaccount.com", aud: "https://sheets.googleapis.com/", iat: Date(timeIntervalSinceNow: 0), exp: Date(timeIntervalSinceNow: 3600)))
 
+var qArray = ("A fever of 99.6 °F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?")
+
 struct ContentView: View {
     
     //debugging tool
-    @State var counter = 0
+    //@State var counter = 0
+    @State var currentQ = 0
+    @State var currentMessage = qArray.0
     
     var body: some View {
         VStack{
                     
+            
             Spacer()
-        
-            Text(String(counter))
+            
+            Text("Do you or any member of your household have any of the following symptoms:")
                 .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
             
             Spacer()
             
+            if(currentQ == 0){
+                Text(qArray.0)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q0")
+            }else if(currentQ == 1){
+                Text(qArray.1)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q1")
+            }else if(currentQ == 2){
+                Text(qArray.2)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q2")
+            }else if(currentQ == 3){
+                Text(qArray.3)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q3")
+            }else if(currentQ == 4){
+                Text(qArray.4)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q4")
+            }else if(currentQ == 5){
+                Text(qArray.5)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+                    .id("Q5")
+            }
+            
+            Spacer()
+            
+            HStack{
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                    currentQ = currentQ - 1
+                                        
+                    }){
+                        Text("No")
+                    }
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                    currentQ = currentQ + 1
+                                        
+                    }){
+                        Text("Yes")
+                    }
+                
+                Spacer()
+                
+            }
+            
+            Spacer()
+            
+                        
             Button(action: {
                 
-                counter = counter + 1
                 updateVals()
                 
                 }){
