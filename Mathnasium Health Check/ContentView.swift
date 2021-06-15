@@ -55,6 +55,7 @@ struct ContentView: View {
                 .id("TitleQuestion")
             
             Spacer()
+                .frame(height: 50)
             
             if(currentQ == 0){
                 Text(qArray.0)
@@ -95,6 +96,7 @@ struct ContentView: View {
             }
             
             Spacer()
+                .frame(height: 100)
             
             HStack{
                 
