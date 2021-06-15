@@ -103,45 +103,24 @@ func SignIn(){
 
 func updateVals(){
     
-    var currentX = 1
-    //var currentY = 4
-
-    let sheetID = "1yfrNE5mr1wajNaBaTE9yvQ69jSxjbxGhWjTU-soTVYU"
-    let range = "A\(currentX):D\(currentX)"
     
     lock.lock()
     
-    var rowFlag = readCells(rowNum: currentX)
-    
-    while rowFlag > 0 {
-        currentX = currentX + 1
-        rowFlag = rowFlag - 1
-    }
-        
-    let requestParams = [
-        "values": [
-            ["hi1", "hi2","hi3","hi4"],
-            ]
-        ]
-    
-    let header : HTTPHeaders = ["Authorization":"Bearer \(bToken)"]
-   
-    let requestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(range)?valueInputOption=USER_ENTERED"
-
-    let req = AF.request(requestURL, method: .put, parameters: requestParams, encoding: JSONEncoding.default, headers: header)
-    req.responseJSON { response in debugPrint("response") }
+    readCells()
         
     lock.unlock()
     
 }
 
 
-func readCells(rowNum: Int) -> Int {
+func readCells() {
     
-    var returnSize = 0
     let sheetID = "1yfrNE5mr1wajNaBaTE9yvQ69jSxjbxGhWjTU-soTVYU"
     
-    let range = "A\(rowNum):D\(100)"
+    let startRange = 1
+    let endRange = 100
+    
+    let range = "A\(startRange):D\(endRange)"
     
     let header : HTTPHeaders = ["Authorization":"Bearer \(bToken)"]
     let requestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(range)"
@@ -159,17 +138,42 @@ func readCells(rowNum: Int) -> Int {
                 print("Contains YESSS")
                 let values = json["values"] as! NSArray
                 let valuesSize = values.count
-                returnSize = valuesSize
+
+                let writeRange = "A\(valuesSize+1):D\(valuesSize+1)"
+                
+                let requestParams = [
+                    "values": [
+                        ["hi1", "hi2","hi3","hi4"],
+                        ]
+                    ]
+                
+                let WriteRequestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(writeRange)?valueInputOption=USER_ENTERED"
+                
+                let req = AF.request(WriteRequestURL, method: .put, parameters: requestParams, encoding: JSONEncoding.default, headers: header)
+                req.responseJSON { response in debugPrint("response") }
                 
                 
             }else{
+                //First row is empty
                 print("Does not contain")
-                returnSize = 0
+                let writeRange = "A1:D1"
+                let requestParams = [
+                    "values": [
+                        ["hi1", "hi2","hi3","hi4"],
+                        ]
+                    ]
+                
+                let WriteRequestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(writeRange)?valueInputOption=USER_ENTERED"
+
+                let req = AF.request(WriteRequestURL, method: .put, parameters: requestParams, encoding: JSONEncoding.default, headers: header)
+                req.responseJSON { response in debugPrint("response") }
+            
             }
             
         }
         
     }
-    return returnSize
+    
+    return
     
 }
