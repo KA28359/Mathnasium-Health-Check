@@ -111,7 +111,7 @@ struct ContentView: View {
                 
                 Button(action: {
                     
-                    currentQ = currentQ - 1
+                    currentQ = currentQ + 1
                                         
                     }){
                         Text("No")
@@ -119,13 +119,11 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                    currentQ = currentQ + 1
-                                        
-                    }){
-                        Text("Yes")
+                Button("Yes") {
+                    withAnimation {
+                        self.showLoginView = true
                     }
+                }.animation(.none)
                 
                 Spacer()
                 
@@ -262,4 +260,32 @@ func readCells() {
     
     return
     
+}
+
+
+
+struct MasterView: View {
+    @State var showLoginView: Bool = false
+
+    var body: some View {
+        VStack {
+            if showLoginView {
+                LoginView()
+                    .animation(.spring())
+                    .transition(.slide)
+            } else {
+                Button("Login") {
+                    withAnimation {
+                        self.showLoginView = true
+                    }
+                }.animation(.none)
+            }
+        }
+    }
+}
+
+struct LoginView: View {
+    var body: some View {
+        Text("Login View")
+    }
 }
