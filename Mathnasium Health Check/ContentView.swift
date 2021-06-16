@@ -42,6 +42,7 @@ struct ContentView: View {
     @State var currentMessage = qArray.0
     
     var body: some View {
+        
         VStack{
                     
             
@@ -63,36 +64,42 @@ struct ContentView: View {
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q0")
+                    .frame(height: 100)
             }else if(currentQ == 1){
                 Text(qArray.1)
                     .padding()
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q1")
+                    .frame(height: 100)
             }else if(currentQ == 2){
                 Text(qArray.2)
                     .padding()
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q2")
+                    .frame(height: 100)
             }else if(currentQ == 3){
                 Text(qArray.3)
                     .padding()
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q3")
+                    .frame(height: 100)
             }else if(currentQ == 4){
                 Text(qArray.4)
                     .padding()
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q4")
+                    .frame(height: 100)
             }else if(currentQ == 5){
                 Text(qArray.5)
                     .padding()
                     .multilineTextAlignment(.center)
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
                     .id("Q5")
+                    .frame(height: 100)
             }
             
             Spacer()
