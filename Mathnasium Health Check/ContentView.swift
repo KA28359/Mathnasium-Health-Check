@@ -39,12 +39,21 @@ struct ContentView: View {
     //debugging tool
     //@State var counter = 0
     @State var currentQ = 0
-    @State var currentMessage = qArray.0
-    
+    //@State var currentMessage = qArray.0
+//    @State var showLoginView: Bool = true
+//    @State var showQuestionView: Bool = false
+    @EnvironmentObject var view: ViewOptions
+
     var body: some View {
         
         VStack{
                     
+            if view.showLoginView {
+                LoginView()
+                    //.animation(.spring())
+                    //.transition(.slide)
+            }else{
+                
             
             Spacer()
 
@@ -58,10 +67,16 @@ struct ContentView: View {
             Spacer()
                 .frame(height: 50)
 
-            Text(currentMessage)
+                Text(view.currentMessage)
                 .padding()
                 .multilineTextAlignment(.center)
-                .transition(AnyTransition.opacity.animation(.easeInOut(duration:1.0)))
+//                .transition(AnyTransition.opacity.animation(.easeInOut(duration:0.5)))
+                    
+                    
+//                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .bottom)))
+                    
+//                    .transition(AnyTransition.opacity.combined(with: .slide))
+                    .transition(.asymmetric(insertion: .slide.animation(.easeIn(duration: 1.0).delay(10.0)), removal: .opacity))
                 .id("Q\(currentQ)")
                 .frame(height: 100)
 
@@ -73,52 +88,39 @@ struct ContentView: View {
                 Spacer()
 
                 Button(action: {
+                    
+                    withAnimation(.easeOut(duration: 1.0)) {
 
-                    currentQ = currentQ - 1
+                    currentQ = currentQ + 1
                     
                     
                     if(currentQ == 0){
-                        currentMessage = qArray.0
+                        view.currentMessage = qArray.0
                     }else if(currentQ == 1){
-                        currentMessage = qArray.1
+                        view.currentMessage = qArray.1
                     }else if(currentQ == 2){
-                        currentMessage = qArray.2
+                        view.currentMessage = qArray.2
                     }else if(currentQ == 3){
-                        currentMessage = qArray.3
+                        view.currentMessage = qArray.3
                     }else if(currentQ == 4){
-                        currentMessage = qArray.4
+                        view.currentMessage = qArray.4
                     }else if(currentQ == 5){
-                        currentMessage = qArray.5
+                        view.currentMessage = qArray.5
                     }
 
+                    }
+                        
                     }){
                         Text("No")
                     }
 
                 Spacer()
 
-                Button(action: {
-
-                    currentQ = currentQ + 1
-                    
-                    
-                    if(currentQ == 0){
-                        currentMessage = qArray.0
-                    }else if(currentQ == 1){
-                        currentMessage = qArray.1
-                    }else if(currentQ == 2){
-                        currentMessage = qArray.2
-                    }else if(currentQ == 3){
-                        currentMessage = qArray.3
-                    }else if(currentQ == 4){
-                        currentMessage = qArray.4
-                    }else if(currentQ == 5){
-                        currentMessage = qArray.5
+                Button("Yes") {
+                    withAnimation {
+                        view.showLoginView = true
                     }
-
-                    }){
-                        Text("Yes")
-                    }
+                }.animation(.none)
 
                 Spacer()
 
@@ -136,14 +138,14 @@ struct ContentView: View {
                 }
             
             Spacer()
-            
+        }
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(ViewOptions())
     }
 }
 
@@ -257,30 +259,53 @@ func readCells() {
     
 }
 
-
-
-struct MasterView: View {
-    @State var showLoginView: Bool = false
-
+struct LoginView: View {
+    
+    @State var studentName: String = ""
+    @State var exit = false
+    @EnvironmentObject var view: ViewOptions
+    
     var body: some View {
         VStack {
-            if showLoginView {
-                LoginView()
-                    .animation(.spring())
-                    .transition(.slide)
-            } else {
-                Button("Login") {
-                    withAnimation {
-                        self.showLoginView = true
-                    }
-                }.animation(.none)
-            }
+            
+            if exit{
+                
+                ContentView()
+                    //.animation(.spring())
+                    //.transition(.slide)
+            }else{
+            
+            Spacer()
+            
+                TextField(
+                    "Given Name",
+                     text: $studentName)
+                    .disableAutocorrection(true)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            Spacer()
+            
+            Button(action: {
+                
+                view.showLoginView = false
+                view.showQuestionView = true
+                exit = true
+                
+                }){
+                    Text("Next")
+                }
+            
+            Spacer()
+           }
         }
+            
     }
 }
 
-struct LoginView: View {
-    var body: some View {
-        Text("Login View")
-    }
+
+
+class ViewOptions: ObservableObject{
+    @Published var showLoginView: Bool = true
+    @Published var showQuestionView: Bool = false
+    @Published var currentMessage = qArray.0
 }
