@@ -32,13 +32,15 @@ let header = Header(kid: "73a230394ec8510f11a82ffc7d94cf371d0e0b04")
 
 let jwt = JWT(header: header, claims: MyClaims(iss: "admin1@mhcapp-315117.iam.gserviceaccount.com", sub: "admin1@mhcapp-315117.iam.gserviceaccount.com", aud: "https://sheets.googleapis.com/", iat: Date(timeIntervalSinceNow: 0), exp: Date(timeIntervalSinceNow: 3600)))
 
-let qArray = ("A fever of 99.6 °F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?")
+let qArray = ("A fever of 99.6 °F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?","Had a confirmed case of COVID-19?","Had close contact with anyone with a suspected or confirmed case of COVID-19?","Been tested or advised to be tested due to a known or suspected exposure to COVID-19?","Been advised or directed to quarantine or self-isolate due to COVID-19?","Traveled to or from a restricted area?")
 
 struct ContentView: View {
     
     //debugging tool
     //@State var counter = 0
-    @State var currentQ = 0
+    //@State var currentQ = 0
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
     //@State var currentMessage = qArray.0
 //    @State var showLoginView: Bool = true
 //    @State var showQuestionView: Bool = false
@@ -52,6 +54,10 @@ struct ContentView: View {
                 LoginView()
                     //.animation(.spring())
                     //.transition(.slide)
+            }else if view.showQuestionOneView{
+                
+                QuestionOneView()
+                
             }else{
                 
             
@@ -67,17 +73,10 @@ struct ContentView: View {
             Spacer()
                 .frame(height: 50)
 
-                Text(view.currentMessage)
+                Text(qArray.0)
                 .padding()
                 .multilineTextAlignment(.center)
-//                .transition(AnyTransition.opacity.animation(.easeInOut(duration:0.5)))
-                    
-                    
-//                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .bottom)))
-                    
-//                    .transition(AnyTransition.opacity.combined(with: .slide))
-                    .transition(.asymmetric(insertion: .slide.animation(.easeIn(duration: 1.0).delay(10.0)), removal: .opacity))
-                .id("Q\(currentQ)")
+                .id("Q0")
                 .frame(height: 100)
 
             Spacer()
@@ -89,38 +88,79 @@ struct ContentView: View {
 
                 Button(action: {
                     
-                    withAnimation(.easeOut(duration: 1.0)) {
-
-                    currentQ = currentQ + 1
-                    
-                    
-                    if(currentQ == 0){
-                        view.currentMessage = qArray.0
-                    }else if(currentQ == 1){
-                        view.currentMessage = qArray.1
-                    }else if(currentQ == 2){
-                        view.currentMessage = qArray.2
-                    }else if(currentQ == 3){
-                        view.currentMessage = qArray.3
-                    }else if(currentQ == 4){
-                        view.currentMessage = qArray.4
-                    }else if(currentQ == 5){
-                        view.currentMessage = qArray.5
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
                     }
-
                     }
+                    
+//                    withAnimation(.easeOut(duration: 1.0)) {
+//
+//                    currentQ = currentQ + 1
+//
+//
+//                    if(currentQ == 0){
+//                        view.currentMessage = qArray.0
+//                    }else if(currentQ == 1){
+//                        view.currentMessage = qArray.1
+//                    }else if(currentQ == 2){
+//                        view.currentMessage = qArray.2
+//                    }else if(currentQ == 3){
+//                        view.currentMessage = qArray.3
+//                    }else if(currentQ == 4){
+//                        view.currentMessage = qArray.4
+//                    }else if(currentQ == 5){
+//                        view.currentMessage = qArray.5
+//                    }
+//
+//                    }
                         
                     }){
                         Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
                     }
 
                 Spacer()
 
-                Button("Yes") {
-                    withAnimation {
-                        view.showLoginView = true
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
                     }
-                }.animation(.none)
+                    }
+//                    withAnimation {
+//                        view.showLoginView = true
+//                    }
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
 
                 Spacer()
 
@@ -131,10 +171,23 @@ struct ContentView: View {
                         
             Button(action: {
                 
-                updateVals()
+                if(didTapYes){
+                    view.responses.0 = "yes"
+                }else if(didTapNo){
+                    view.responses.0 = "no"
+                }
+                
+                view.showQuestionOneView = true
                 
                 }){
-                    Text("Push here")
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
                 }
             
             Spacer()
@@ -182,26 +235,26 @@ func SignIn(){
     
 }
 
-func updateVals(){
+func updateVals(stuName: String, responseArray: (String, String, String, String, String, String, String, String, String, String, String)){
     
     
     lock.lock()
     
-    readCells()
+    readCells(stuName: stuName, responseArray: responseArray)
         
     lock.unlock()
     
 }
 
 
-func readCells() {
-    
+func readCells(stuName: String, responseArray: (String, String, String, String, String, String, String, String, String, String, String)) {
+        
     let sheetID = "1yfrNE5mr1wajNaBaTE9yvQ69jSxjbxGhWjTU-soTVYU"
     
     let startRange = 1
     let endRange = 100
     
-    let range = "A\(startRange):D\(endRange)"
+    let range = "A\(startRange):L\(endRange)"
     
     let header : HTTPHeaders = ["Authorization":"Bearer \(bToken)"]
     let requestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(range)"
@@ -220,11 +273,11 @@ func readCells() {
                 let values = json["values"] as! NSArray
                 let valuesSize = values.count
 
-                let writeRange = "A\(valuesSize+1):D\(valuesSize+1)"
+                let writeRange = "A\(valuesSize+1):L\(valuesSize+1)"
                 
                 let requestParams = [
                     "values": [
-                        ["hi1", "hi2","hi3","hi4"],
+                        [stuName, responseArray.0,responseArray.1,responseArray.2,responseArray.3,responseArray.4,responseArray.5,responseArray.6,responseArray.7,responseArray.8,responseArray.9,responseArray.10],
                         ]
                     ]
                 
@@ -237,10 +290,10 @@ func readCells() {
             }else{
                 //First row is empty
                 print("Does not contain")
-                let writeRange = "A1:D1"
+                let writeRange = "A1:L1"
                 let requestParams = [
                     "values": [
-                        ["hi1", "hi2","hi3","hi4"],
+                        [stuName, responseArray.0,responseArray.1,responseArray.2,responseArray.3,responseArray.4,responseArray.5,responseArray.6,responseArray.7,responseArray.8,responseArray.9,responseArray.10],
                         ]
                     ]
                 
@@ -261,7 +314,6 @@ func readCells() {
 
 struct LoginView: View {
     
-    @State var studentName: String = ""
     @State var exit = false
     @EnvironmentObject var view: ViewOptions
     
@@ -279,7 +331,7 @@ struct LoginView: View {
             
                 TextField(
                     "Given Name",
-                     text: $studentName)
+                    text: $view.studentName)
                     .disableAutocorrection(true)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             
@@ -302,10 +354,1340 @@ struct LoginView: View {
     }
 }
 
+struct QuestionOneView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionTwoView{
+                
+                QuestionTwoView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("Do you or any member of your household have any of the following symptoms:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.1)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q1")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.1 = "yes"
+                }else if(didTapNo){
+                    view.responses.1 = "no"
+                }
+                
+                view.showQuestionTwoView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+    
+}
+
+
+
+struct QuestionTwoView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionThreeView{
+                
+                QuestionThreeView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("Do you or any member of your household have any of the following symptoms:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.2)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q2")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.2 = "yes"
+                }else if(didTapNo){
+                    view.responses.2 = "no"
+                }
+                
+                view.showQuestionThreeView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionThreeView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionFourView{
+                
+                QuestionFourView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("Do you or any member of your household have any of the following symptoms:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.3)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q3")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.3 = "yes"
+                }else if(didTapNo){
+                    view.responses.3 = "no"
+                }
+                
+                view.showQuestionFourView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionFourView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionFiveView{
+                
+                QuestionFiveView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("Do you or any member of your household have any of the following symptoms:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.4)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q4")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.4 = "yes"
+                }else if(didTapNo){
+                    view.responses.4 = "no"
+                }
+                
+                view.showQuestionFiveView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionFiveView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionSixView{
+                
+                QuestionSixView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("Do you or any member of your household have any of the following symptoms:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.5)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q5")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.5 = "yes"
+                }else if(didTapNo){
+                    view.responses.5 = "no"
+                }
+                
+                view.showQuestionSixView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionSixView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionSevenView{
+                
+                QuestionSevenView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("In the last 14 days, have you or any member of your household:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.6)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q6")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.6 = "yes"
+                }else if(didTapNo){
+                    view.responses.6 = "no"
+                }
+                
+                view.showQuestionSevenView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionSevenView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionEightView{
+                
+                QuestionEightView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("In the last 14 days, have you or any member of your household:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.7)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q7")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.7 = "yes"
+                }else if(didTapNo){
+                    view.responses.7 = "no"
+                }
+                
+                view.showQuestionEightView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionEightView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionNineView{
+                
+                QuestionNineView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("In the last 14 days, have you or any member of your household:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.8)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q8")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.8 = "yes"
+                }else if(didTapNo){
+                    view.responses.8 = "no"
+                }
+                
+                view.showQuestionNineView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionNineView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showQuestionTenView{
+                
+                QuestionTenView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("In the last 14 days, have you or any member of your household:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.9)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q9")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.9 = "yes"
+                }else if(didTapNo){
+                    view.responses.9 = "no"
+                }
+                
+                view.showQuestionTenView = true
+                
+                }){
+                    Text("Next")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
+
+struct QuestionTenView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    
+    var body: some View {
+        
+        VStack{
+            
+            if view.showLoginView{
+                
+                LoginView()
+                
+            }else{
+                
+            
+            Spacer()
+
+            Text("In the last 14 days, have you or any member of your household:")
+                .padding()
+                //.font(.title)
+                .multilineTextAlignment(.center)
+                //.transition(.opacity)
+                .id("TitleQuestion")
+
+            Spacer()
+                .frame(height: 50)
+
+                Text(qArray.10)
+                .padding()
+                .multilineTextAlignment(.center)
+                    
+                .id("Q10")
+                .frame(height: 100)
+
+            Spacer()
+                .frame(height: 100)
+
+            HStack{
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapNo == false){
+                    self.didTapNo.toggle()
+                    if(didTapYes){
+                        self.didTapYes.toggle()
+                    }
+                    }
+                        
+                    }){
+                        Text("No")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(Color.white)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                    
+                    
+                    }
+
+                Spacer()
+
+                Button(action: {
+                    
+                    if(didTapYes == false){
+                    self.didTapYes.toggle()
+                    if(didTapNo){
+                        self.didTapNo.toggle()
+                    }
+                    }
+
+                }){
+                    Text("Yes")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        .padding(10)
+                        .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.red, lineWidth: 5)
+                                )
+                    
+                }
+
+                Spacer()
+
+            }
+            
+            Spacer()
+            
+                        
+            Button(action: {
+                
+                if(didTapYes){
+                    view.responses.10 = "yes"
+                }else if(didTapNo){
+                    view.responses.10 = "no"
+                }
+                
+                view.showLoginView = true
+                updateVals(stuName: view.studentName, responseArray: view.responses)
+                
+                }){
+                    Text("Done")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
+                        .cornerRadius(40)
+                        .foregroundColor(Color.white)
+                        
+                }
+            
+            Spacer()
+        }
+        }
+        
+    }
+}
 
 
 class ViewOptions: ObservableObject{
     @Published var showLoginView: Bool = true
     @Published var showQuestionView: Bool = false
+    @Published var showQuestionOneView: Bool = false
+    @Published var showQuestionTwoView: Bool = false
+    @Published var showQuestionThreeView: Bool = false
+    @Published var showQuestionFourView: Bool = false
+    @Published var showQuestionFiveView: Bool = false
+    @Published var showQuestionSixView: Bool = false
+    @Published var showQuestionSevenView: Bool = false
+    @Published var showQuestionEightView: Bool = false
+    @Published var showQuestionNineView: Bool = false
+    @Published var showQuestionTenView: Bool = false
+    @Published var showQuestionElevenView: Bool = false
     @Published var currentMessage = qArray.0
+    
+    @Published var studentName = ""
+    
+    @Published var responses = ("","","","","","","","","","","")
+    
 }
+
