@@ -45,6 +45,7 @@ struct ContentView: View {
 //    @State var showLoginView: Bool = true
 //    @State var showQuestionView: Bool = false
     @EnvironmentObject var view: ViewOptions
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         
@@ -95,26 +96,6 @@ struct ContentView: View {
                     }
                     }
                     
-//                    withAnimation(.easeOut(duration: 1.0)) {
-//
-//                    currentQ = currentQ + 1
-//
-//
-//                    if(currentQ == 0){
-//                        view.currentMessage = qArray.0
-//                    }else if(currentQ == 1){
-//                        view.currentMessage = qArray.1
-//                    }else if(currentQ == 2){
-//                        view.currentMessage = qArray.2
-//                    }else if(currentQ == 3){
-//                        view.currentMessage = qArray.3
-//                    }else if(currentQ == 4){
-//                        view.currentMessage = qArray.4
-//                    }else if(currentQ == 5){
-//                        view.currentMessage = qArray.5
-//                    }
-//
-//                    }
                         
                     }){
                         Text("No")
@@ -123,7 +104,7 @@ struct ContentView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -153,7 +134,7 @@ struct ContentView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -173,6 +154,7 @@ struct ContentView: View {
                 
                 if(didTapYes){
                     view.responses.0 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.0 = "no"
                 }
@@ -180,15 +162,18 @@ struct ContentView: View {
                 view.showQuestionOneView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -316,6 +301,8 @@ struct LoginView: View {
     
     @State var exit = false
     @EnvironmentObject var view: ViewOptions
+    @Environment(\.colorScheme) var colorScheme
+    @State private var stuName = ""
     
     var body: some View {
         VStack {
@@ -330,22 +317,33 @@ struct LoginView: View {
             Spacer()
             
                 TextField(
-                    "Given Name",
-                    text: $view.studentName)
+                    "Student Name",
+                    text: $stuName)
                     .disableAutocorrection(true)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(width:UIScreen.main.bounds.size.width*4/5,height:40)
             
             Spacer()
             
-            Button(action: {
-                
-                view.showLoginView = false
-                view.showQuestionView = true
-                exit = true
-                
-                }){
-                    Text("Next")
-                }
+                Button(action: {
+                    view.showLoginView = false
+                    view.showQuestionView = true
+                    exit = true
+                    view.studentName = stuName
+                }) {
+                    HStack {
+                        Text("Next")
+                            .fontWeight(.semibold)
+                            .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                    .background(stuName == "" ? Color.gray : Color.red)
+                    .cornerRadius(40)
+                    .padding(.horizontal, 20)
+                    
+                }.disabled(stuName == "")
             
             Spacer()
            }
@@ -359,6 +357,7 @@ struct QuestionOneView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -413,7 +412,7 @@ struct QuestionOneView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -441,7 +440,7 @@ struct QuestionOneView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -455,28 +454,29 @@ struct QuestionOneView: View {
             }
             
             Spacer()
-            
-                        
-            Button(action: {
                 
-                if(didTapYes){
-                    view.responses.1 = "yes"
-                }else if(didTapNo){
-                    view.responses.1 = "no"
-                }
-                
-                view.showQuestionTwoView = true
-                
-                }){
-                    Text("Next")
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
-                }
+                Button(action: {
+                    if(didTapYes){
+                        view.responses.1 = "yes"
+                        view.recivedYes = true
+                    }else if(didTapNo){
+                        view.responses.1 = "no"
+                    }
+                    
+                    view.showQuestionTwoView = true
+                }) {
+                    HStack {
+                        Text("Next")
+                            .fontWeight(.semibold)
+                            .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                    .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                    .cornerRadius(40)
+                    .padding(.horizontal, 20)
+                }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -493,6 +493,7 @@ struct QuestionTwoView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -547,7 +548,7 @@ struct QuestionTwoView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -575,7 +576,7 @@ struct QuestionTwoView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -595,6 +596,7 @@ struct QuestionTwoView: View {
                 
                 if(didTapYes){
                     view.responses.2 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.2 = "no"
                 }
@@ -602,15 +604,18 @@ struct QuestionTwoView: View {
                 view.showQuestionThreeView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -624,6 +629,7 @@ struct QuestionThreeView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -678,7 +684,7 @@ struct QuestionThreeView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -706,7 +712,7 @@ struct QuestionThreeView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -726,6 +732,7 @@ struct QuestionThreeView: View {
                 
                 if(didTapYes){
                     view.responses.3 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.3 = "no"
                 }
@@ -733,15 +740,18 @@ struct QuestionThreeView: View {
                 view.showQuestionFourView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -755,6 +765,7 @@ struct QuestionFourView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -809,7 +820,7 @@ struct QuestionFourView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -837,7 +848,7 @@ struct QuestionFourView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -857,6 +868,7 @@ struct QuestionFourView: View {
                 
                 if(didTapYes){
                     view.responses.4 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.4 = "no"
                 }
@@ -864,15 +876,18 @@ struct QuestionFourView: View {
                 view.showQuestionFiveView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -886,6 +901,7 @@ struct QuestionFiveView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -940,7 +956,7 @@ struct QuestionFiveView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -968,7 +984,7 @@ struct QuestionFiveView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -988,6 +1004,7 @@ struct QuestionFiveView: View {
                 
                 if(didTapYes){
                     view.responses.5 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.5 = "no"
                 }
@@ -995,15 +1012,18 @@ struct QuestionFiveView: View {
                 view.showQuestionSixView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -1017,6 +1037,7 @@ struct QuestionSixView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -1071,7 +1092,7 @@ struct QuestionSixView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -1099,7 +1120,7 @@ struct QuestionSixView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -1119,6 +1140,7 @@ struct QuestionSixView: View {
                 
                 if(didTapYes){
                     view.responses.6 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.6 = "no"
                 }
@@ -1126,15 +1148,18 @@ struct QuestionSixView: View {
                 view.showQuestionSevenView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -1148,6 +1173,7 @@ struct QuestionSevenView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -1202,7 +1228,7 @@ struct QuestionSevenView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -1230,7 +1256,7 @@ struct QuestionSevenView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -1250,6 +1276,7 @@ struct QuestionSevenView: View {
                 
                 if(didTapYes){
                     view.responses.7 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.7 = "no"
                 }
@@ -1257,15 +1284,18 @@ struct QuestionSevenView: View {
                 view.showQuestionEightView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -1279,6 +1309,7 @@ struct QuestionEightView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -1333,7 +1364,7 @@ struct QuestionEightView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -1361,7 +1392,7 @@ struct QuestionEightView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -1381,6 +1412,7 @@ struct QuestionEightView: View {
                 
                 if(didTapYes){
                     view.responses.8 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.8 = "no"
                 }
@@ -1388,15 +1420,18 @@ struct QuestionEightView: View {
                 view.showQuestionNineView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -1410,6 +1445,7 @@ struct QuestionNineView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -1464,7 +1500,7 @@ struct QuestionNineView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -1492,7 +1528,7 @@ struct QuestionNineView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -1512,6 +1548,7 @@ struct QuestionNineView: View {
                 
                 if(didTapYes){
                     view.responses.9 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.9 = "no"
                 }
@@ -1519,15 +1556,18 @@ struct QuestionNineView: View {
                 view.showQuestionTenView = true
                 
                 }){
+                HStack {
                     Text("Next")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
@@ -1541,14 +1581,24 @@ struct QuestionTenView: View {
     @EnvironmentObject var view: ViewOptions
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    @State private var eval:Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
         VStack{
             
-            if view.showLoginView{
+            if eval{
                 
-                LoginView()
+                if view.recivedYes {
+                    
+                    FailView()
+                    
+                }else{
+                    
+                    SuccessView()
+                    
+                }
                 
             }else{
                 
@@ -1595,7 +1645,7 @@ struct QuestionTenView: View {
                             .padding()
                             .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
                             .cornerRadius(40)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(10)
                             .overlay(
                                         RoundedRectangle(cornerRadius: 20)
@@ -1623,7 +1673,7 @@ struct QuestionTenView: View {
                         .padding()
                         .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
                         .cornerRadius(40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(10)
                         .overlay(
                                     RoundedRectangle(cornerRadius: 20)
@@ -1643,29 +1693,123 @@ struct QuestionTenView: View {
                 
                 if(didTapYes){
                     view.responses.10 = "yes"
+                    view.recivedYes = true
                 }else if(didTapNo){
                     view.responses.10 = "no"
                 }
                 
-                view.showLoginView = true
+                eval = true
                 updateVals(stuName: view.studentName, responseArray: view.responses)
                 
                 }){
+                HStack {
                     Text("Done")
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.title)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color.red))
-                        .cornerRadius(40)
-                        .foregroundColor(Color.white)
-                        
                 }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding()
+                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                .cornerRadius(40)
+                .padding(.horizontal, 20)
+            }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
         }
         }
         
     }
+}
+
+struct SuccessView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    
+    var body: some View {
+        
+        ZStack {
+                    Color.green
+                        .ignoresSafeArea()
+        
+            VStack{
+                
+                Spacer()
+                Text("✓")
+                            .foregroundColor(Color.white)
+                            .font(.system(size:UIScreen.main.bounds.size.width/2))
+                               .padding(30)
+                    .overlay(Circle()
+                                .stroke(lineWidth: 20.0)
+                                .foregroundColor(Color.white)
+                                .frame(width:UIScreen.main.bounds.size.width))
+                
+                Spacer()
+                    
+                
+                Text(view.studentName+", you're good to go!")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width:UIScreen.main.bounds.size.width*3/4)
+                
+                Spacer()
+                
+            }
+        
+        
+        }
+        
+        
+    }
+    
+    
+}
+
+struct FailView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    
+    var body: some View {
+        
+        ZStack {
+                    Color.red
+                        .ignoresSafeArea()
+        
+            VStack{
+                
+                Spacer()
+                Text("X")
+                            .foregroundColor(Color.white)
+                            .font(.system(size:UIScreen.main.bounds.size.width/2))
+                               .padding(30)
+                    .overlay(Circle()
+                                .stroke(lineWidth: 20.0)
+                                .foregroundColor(Color.white)
+                                .frame(width:UIScreen.main.bounds.size.width))
+                
+                Spacer()
+                    
+                
+                Text(view.studentName+", call the center for more information.")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width:UIScreen.main.bounds.size.width*3/4)
+                
+                Spacer()
+                
+            }
+        
+        
+        }
+        
+        
+    }
+    
+    
 }
 
 
@@ -1688,6 +1832,8 @@ class ViewOptions: ObservableObject{
     @Published var studentName = ""
     
     @Published var responses = ("","","","","","","","","","","")
+    
+    @Published var recivedYes = false
     
 }
 
