@@ -32,7 +32,7 @@ let header = Header(kid: "73a230394ec8510f11a82ffc7d94cf371d0e0b04")
 
 let jwt = JWT(header: header, claims: MyClaims(iss: "admin1@mhcapp-315117.iam.gserviceaccount.com", sub: "admin1@mhcapp-315117.iam.gserviceaccount.com", aud: "https://sheets.googleapis.com/", iat: Date(timeIntervalSinceNow: 0), exp: Date(timeIntervalSinceNow: 3600)))
 
-let qArray = ("A fever of 99.6 °F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?","Had a confirmed case of COVID-19?","Had close contact with anyone with a suspected or confirmed case of COVID-19?","Been tested or advised to be tested due to a known or suspected exposure to COVID-19?","Been advised or directed to quarantine or self-isolate due to COVID-19?","Traveled to or from a restricted area?")
+let qArray = ("A fever of 99.6°F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?","Had a confirmed case of COVID-19?","Had close contact with anyone with a suspected or confirmed case of COVID-19?","Been tested or advised to be tested due to a known or suspected exposure to COVID-19?","Been advised or directed to quarantine or self-isolate due to COVID-19?","Traveled to or from a restricted area?")
 
 struct ContentView: View {
     
@@ -66,9 +66,7 @@ struct ContentView: View {
 
             Text("Do you or any member of your household have any of the following symptoms:")
                 .padding()
-                //.font(.title)
                 .multilineTextAlignment(.center)
-                //.transition(.opacity)
                 .id("TitleQuestion")
 
             Spacer()
@@ -78,10 +76,10 @@ struct ContentView: View {
                 .padding()
                 .multilineTextAlignment(.center)
                 .id("Q0")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -387,10 +385,10 @@ struct QuestionOneView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q1")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -523,10 +521,10 @@ struct QuestionTwoView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q2")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -659,10 +657,10 @@ struct QuestionThreeView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q3")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -795,10 +793,10 @@ struct QuestionFourView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q4")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -931,10 +929,10 @@ struct QuestionFiveView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q5")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -1067,10 +1065,10 @@ struct QuestionSixView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q6")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -1203,10 +1201,10 @@ struct QuestionSevenView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q7")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -1339,10 +1337,10 @@ struct QuestionEightView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q8")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -1475,10 +1473,10 @@ struct QuestionNineView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q9")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
@@ -1620,10 +1618,10 @@ struct QuestionTenView: View {
                 .multilineTextAlignment(.center)
                     
                 .id("Q10")
-                .frame(height: 100)
+                .frame(height: 150)
 
             Spacer()
-                .frame(height: 100)
+                .frame(height: 50)
 
             HStack{
 
