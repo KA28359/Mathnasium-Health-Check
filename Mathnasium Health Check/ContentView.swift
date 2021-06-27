@@ -38,19 +38,7 @@ var savedName = UserDefaults.standard.string(forKey: "Name")
 
 struct ContentView: View {
     
-    //debugging tool
-    //@State var counter = 0
-    //@State var currentQ = 0
-    @State private var didTapNo:Bool = false
-    @State private var didTapYes:Bool = false
-    //@State private var restart:Bool = false
-    //@State var currentMessage = qArray.0
-//    @State var showLoginView: Bool = true
-//    @State var showQuestionView: Bool = false
     @EnvironmentObject var view: ViewOptions
-    @Environment(\.colorScheme) var colorScheme
-    
-    @ObservedObject var settings = UserSettings()
 
     var body: some View {
         
@@ -60,133 +48,9 @@ struct ContentView: View {
                 LoginView()
                     //.animation(.spring())
                     //.transition(.slide)
-            }else if view.showQuestionOneView{
-                
-                QuestionOneView()
-                
             }else{
-                
-            
-            Spacer()
-
-            Text("Do you or any member of your household have any of the following symptoms:")
-                .padding()
-                .multilineTextAlignment(.center)
-                .id("TitleQuestion")
-
-            Spacer()
-                .frame(height: 50)
-
-                Text(qArray.0)
-                .padding()
-                .multilineTextAlignment(.center)
-                .id("Q0")
-                .frame(height: 150)
-
-            Spacer()
-                .frame(height: 50)
-
-            HStack{
-
-                Spacer()
-
-                Button(action: {
-                    
-                    if(didTapNo == false){
-                    self.didTapNo.toggle()
-                    if(didTapYes){
-                        self.didTapYes.toggle()
-                    }
-                    }
-                    
-                        
-                    }){
-                        Text("No")
-                            .fontWeight(.bold)
-                            .font(.title)
-                            .padding()
-                            .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
-                            .cornerRadius(40)
-                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                            .padding(10)
-                            .overlay(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(Color.red, lineWidth: 5)
-                                    )
-                    
-                    
-                    }
-
-                Spacer()
-
-                Button(action: {
-                    
-                    if(didTapYes == false){
-                    self.didTapYes.toggle()
-                    if(didTapNo){
-                        self.didTapNo.toggle()
-                    }
-                    }
-                }){
-                    Text("Yes")
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .padding()
-                        .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
-                        .cornerRadius(40)
-                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                        .padding(10)
-                        .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.red, lineWidth: 5)
-                                )
-                    
-                }
-
-                Spacer()
-
+                WelcomeView()
             }
-            
-            Spacer()
-            
-                        
-            Button(action: {
-                
-                if(didTapYes){
-                    view.responses.0 = "yes"
-                    view.recivedYes = true
-                }else if(didTapNo){
-                    view.responses.0 = "no"
-                }
-                
-                view.showQuestionOneView = true
-                
-                }){
-                HStack {
-                    Text("Next")
-                        .fontWeight(.semibold)
-                        .font(.title)
-                }
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .padding()
-                .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
-                .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
-                .cornerRadius(40)
-                .padding(.horizontal, 20)
-            }.disabled(didTapNo == false && didTapYes == false)
-            
-            Spacer()
-                Button(action: {
-                    
-                    UserDefaults.standard.set(nil, forKey: "Name")
-                    view.studentName = ""
-                    //restart = true
-                    //view.showLoginView = true
-                    
-                }){
-                    Text("Push")
-                }
-        }
         }
     }
 }
@@ -365,6 +229,142 @@ struct LoginView: View {
             
     }
 }
+
+struct QuestionZeroView: View {
+    
+    @State private var didTapNo:Bool = false
+    @State private var didTapYes:Bool = false
+    @EnvironmentObject var view: ViewOptions
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        
+        VStack{
+        
+            if view.showQuestionOneView{
+                
+                QuestionOneView()
+                
+            }else{
+                
+                Spacer()
+
+                Text("Do you or any member of your household have any of the following symptoms:")
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .id("TitleQuestion")
+
+                Spacer()
+                    .frame(height: 50)
+
+                    Text(qArray.0)
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .id("Q0")
+                    .frame(height: 150)
+
+                Spacer()
+                    .frame(height: 50)
+
+                HStack{
+
+                    Spacer()
+
+                    Button(action: {
+                        
+                        if(didTapNo == false){
+                        self.didTapNo.toggle()
+                        if(didTapYes){
+                            self.didTapYes.toggle()
+                        }
+                        }
+                        
+                            
+                        }){
+                            Text("No")
+                                .fontWeight(.bold)
+                                .font(.title)
+                                .padding()
+                                .background(didTapNo ? Color.red : Color(UIColor.systemBackground))
+                                .cornerRadius(40)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                .padding(10)
+                                .overlay(
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(Color.red, lineWidth: 5)
+                                        )
+                        
+                        
+                        }
+
+                    Spacer()
+
+                    Button(action: {
+                        
+                        if(didTapYes == false){
+                        self.didTapYes.toggle()
+                        if(didTapNo){
+                            self.didTapNo.toggle()
+                        }
+                        }
+                    }){
+                        Text("Yes")
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                            .background(didTapYes ? Color.red : Color(UIColor.systemBackground))
+                            .cornerRadius(40)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                            .padding(10)
+                            .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.red, lineWidth: 5)
+                                    )
+                        
+                    }
+
+                    Spacer()
+
+                }
+                
+                Spacer()
+                
+                            
+                Button(action: {
+                    
+                    if(didTapYes){
+                        view.responses.0 = "yes"
+                        view.recivedYes = true
+                    }else if(didTapNo){
+                        view.responses.0 = "no"
+                    }
+                    
+                    view.showQuestionOneView = true
+                    
+                    }){
+                    HStack {
+                        Text("Next")
+                            .fontWeight(.semibold)
+                            .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                    .background((didTapNo == false && didTapYes == false) ? Color.gray : Color.red)
+                    .cornerRadius(40)
+                    .padding(.horizontal, 20)
+                }.disabled(didTapNo == false && didTapYes == false)
+                
+                Spacer()
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
 
 struct QuestionOneView: View {
     
@@ -1823,6 +1823,94 @@ struct FailView: View {
         
     }
     
+    
+}
+
+struct WelcomeView: View {
+    
+    @EnvironmentObject var view: ViewOptions
+    @Environment(\.colorScheme) var colorScheme
+    @State var goToLogin = false
+    @State var goToQuestions = false
+    let hour = Calendar.current.component(.hour, from: Date())
+    let NEW_DAY = 0
+    let NOON = 12
+    let MIDNIGHT = 24
+    
+    let morningGreeting = "Good Morning\n"
+    let afternoonGreeting = "Good Afternoon\n"
+    
+    var body: some View {
+        
+        if goToLogin{
+            LoginView()
+        }else if goToQuestions{
+            QuestionZeroView()
+        }else{
+            
+            VStack{
+                
+                Spacer()
+                
+                Text((hour > NEW_DAY && hour < NOON) ? morningGreeting+view.studentName! : afternoonGreeting+view.studentName!)
+                    .font(.system(size:UIScreen.main.bounds.size.height/20))
+                    .fontWeight(.bold)
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                    .multilineTextAlignment(.center)
+                    .frame(width:UIScreen.main.bounds.size.width, height:UIScreen.main.bounds.size.height/4)
+                    
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                    goToQuestions = true
+                    
+                }){
+                    HStack {
+                        Text("Continue")
+                            .fontWeight(.semibold)
+                            .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                    .background(Color.red)
+                    .cornerRadius(40)
+                    .padding(.horizontal, 20)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                    UserDefaults.standard.set(nil, forKey: "Name")
+                    view.studentName = ""
+                    goToLogin = true
+                    
+                }){
+                    HStack {
+                        Text("Log Out")
+                            .fontWeight(.semibold)
+                            .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+                    .background(Color.red)
+                    .cornerRadius(40)
+                    .padding(.horizontal, 20)
+                }
+                
+                Spacer()
+                
+                
+            }
+            
+            
+        }
+        
+    }
     
 }
 
