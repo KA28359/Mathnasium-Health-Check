@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		246AADA151BEA2846253173A /* Pods_Mathnasium_Health_Check.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7016399602E669A4853FBBE1 /* Pods_Mathnasium_Health_Check.framework */; };
+		CA0D3FCE2686A54300D47A17 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0D3FCD2686A54300D47A17 /* UserDefaults.swift */; };
 		CA19B44B2676D154008030D0 /* mhcapp-315117-73a230394ec8.json in Resources */ = {isa = PBXBuildFile; fileRef = CA19B44A2676D154008030D0 /* mhcapp-315117-73a230394ec8.json */; };
 		CA55479926719EED00BF4082 /* Mathnasium_Health_CheckApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */; };
 		CA55479B26719EED00BF4082 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55479A26719EED00BF4082 /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		7016399602E669A4853FBBE1 /* Pods_Mathnasium_Health_Check.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mathnasium_Health_Check.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F9DD8047348B3BD1503FF1 /* Pods-Mathnasium Health Check.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mathnasium Health Check.release.xcconfig"; path = "Target Support Files/Pods-Mathnasium Health Check/Pods-Mathnasium Health Check.release.xcconfig"; sourceTree = "<group>"; };
+		CA0D3FCD2686A54300D47A17 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		CA19B44A2676D154008030D0 /* mhcapp-315117-73a230394ec8.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "mhcapp-315117-73a230394ec8.json"; path = "Mathnasium Health Check/mhcapp-315117-73a230394ec8.json"; sourceTree = "<group>"; };
 		CA55479526719EED00BF4082 /* Mathnasium Health Check.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mathnasium Health Check.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mathnasium_Health_CheckApp.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			children = (
 				CA55479826719EED00BF4082 /* Mathnasium_Health_CheckApp.swift */,
 				CA55479A26719EED00BF4082 /* ContentView.swift */,
+				CA0D3FCD2686A54300D47A17 /* UserDefaults.swift */,
 				CA55479C26719EEE00BF4082 /* Assets.xcassets */,
 				CA5547A126719EEE00BF4082 /* Info.plist */,
 				CA55479E26719EEE00BF4082 /* Preview Content */,
@@ -230,6 +233,7 @@
 			files = (
 				CA55479B26719EED00BF4082 /* ContentView.swift in Sources */,
 				CA55479926719EED00BF4082 /* Mathnasium_Health_CheckApp.swift in Sources */,
+				CA0D3FCE2686A54300D47A17 /* UserDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

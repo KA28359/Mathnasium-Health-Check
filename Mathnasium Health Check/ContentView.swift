@@ -34,6 +34,8 @@ let jwt = JWT(header: header, claims: MyClaims(iss: "admin1@mhcapp-315117.iam.gs
 
 let qArray = ("A fever of 99.6°F or greater now or in the preceding 3 days (or would have, but used fever reducing medicine)?","A new or worsening cough?","A sore throat?","Muscle or body aches?","Shortness of breath or difficulty breathing?","New loss of taste or smell?","Had a confirmed case of COVID-19?","Had close contact with anyone with a suspected or confirmed case of COVID-19?","Been tested or advised to be tested due to a known or suspected exposure to COVID-19?","Been advised or directed to quarantine or self-isolate due to COVID-19?","Traveled to or from a restricted area?")
 
+var savedName = UserDefaults.standard.string(forKey: "Name")
+
 struct ContentView: View {
     
     //debugging tool
@@ -41,17 +43,20 @@ struct ContentView: View {
     //@State var currentQ = 0
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
+    //@State private var restart:Bool = false
     //@State var currentMessage = qArray.0
 //    @State var showLoginView: Bool = true
 //    @State var showQuestionView: Bool = false
     @EnvironmentObject var view: ViewOptions
     @Environment(\.colorScheme) var colorScheme
+    
+    @ObservedObject var settings = UserSettings()
 
     var body: some View {
         
         VStack{
                     
-            if view.showLoginView {
+            if view.studentName == "" {
                 LoginView()
                     //.animation(.spring())
                     //.transition(.slide)
@@ -122,9 +127,6 @@ struct ContentView: View {
                         self.didTapNo.toggle()
                     }
                     }
-//                    withAnimation {
-//                        view.showLoginView = true
-//                    }
                 }){
                     Text("Yes")
                         .fontWeight(.bold)
@@ -174,6 +176,16 @@ struct ContentView: View {
             }.disabled(didTapNo == false && didTapYes == false)
             
             Spacer()
+                Button(action: {
+                    
+                    UserDefaults.standard.set(nil, forKey: "Name")
+                    view.studentName = ""
+                    //restart = true
+                    //view.showLoginView = true
+                    
+                }){
+                    Text("Push")
+                }
         }
         }
     }
@@ -302,6 +314,8 @@ struct LoginView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var stuName = ""
     
+    @ObservedObject var settings = UserSettings()
+    
     var body: some View {
         VStack {
             
@@ -324,10 +338,12 @@ struct LoginView: View {
             Spacer()
             
                 Button(action: {
-                    view.showLoginView = false
+                    //view.showLoginView = false
                     view.showQuestionView = true
                     exit = true
                     view.studentName = stuName
+                    UserDefaults.standard.set(stuName, forKey: "Name")
+                    
                 }) {
                     HStack {
                         Text("Next")
@@ -1697,7 +1713,7 @@ struct QuestionTenView: View {
                 }
                 
                 eval = true
-                updateVals(stuName: view.studentName, responseArray: view.responses)
+                updateVals(stuName: view.studentName!, responseArray: view.responses)
                 
                 }){
                 HStack {
@@ -1745,7 +1761,7 @@ struct SuccessView: View {
                 Spacer()
                     
                 
-                Text(view.studentName+", you're good to go!")
+                Text(view.studentName!+", you're good to go!")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -1790,7 +1806,7 @@ struct FailView: View {
                 Spacer()
                     
                 
-                Text(view.studentName+", call the center for more information.")
+                Text(view.studentName!+", call the center for more information.")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -1812,7 +1828,8 @@ struct FailView: View {
 
 
 class ViewOptions: ObservableObject{
-    @Published var showLoginView: Bool = true
+    
+    //@Published var showLoginView: Bool = test == nil ? true : false
     @Published var showQuestionView: Bool = false
     @Published var showQuestionOneView: Bool = false
     @Published var showQuestionTwoView: Bool = false
@@ -1827,7 +1844,7 @@ class ViewOptions: ObservableObject{
     @Published var showQuestionElevenView: Bool = false
     @Published var currentMessage = qArray.0
     
-    @Published var studentName = ""
+    @Published var studentName = savedName == nil ? "" : savedName
     
     @Published var responses = ("","","","","","","","","","","")
     
