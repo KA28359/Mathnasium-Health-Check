@@ -180,6 +180,8 @@ struct LoginView: View {
     
     @ObservedObject var settings = UserSettings()
     
+    @State private var showingAlert = false
+    
     var body: some View {
         VStack {
             
@@ -203,10 +205,25 @@ struct LoginView: View {
             
                 Button(action: {
                     //view.showLoginView = false
-                    view.showQuestionView = true
-                    exit = true
-                    view.studentName = stuName
-                    UserDefaults.standard.set(stuName, forKey: "Name")
+//                    view.studentName = GetStudentFromID(studentID: stuName)
+                    
+                    GetStudentFromID(studentID: stuName){ name in
+                        
+                        view.studentName = name
+                        
+                        if(view.studentName != ""){
+                            showingAlert = false
+                            view.showQuestionView = true
+                            exit = true
+                            
+                            UserDefaults.standard.set(name, forKey: "Name")
+                            
+                        }else{
+                            showingAlert = true
+                        }
+                        
+                    }
+                    
                     
                 }) {
                     HStack {
@@ -222,6 +239,9 @@ struct LoginView: View {
                     .padding(.horizontal, 20)
                     
                 }.disabled(stuName == "")
+                .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Student ID not found"), message: Text("The ID you entered was not found. Please try again."), dismissButton: .default(Text("Got it!")))
+                }
             
             Spacer()
            }
@@ -229,6 +249,88 @@ struct LoginView: View {
             
     }
 }
+
+struct Students{
+    var studentID : Int
+    var studentName : String
+}
+
+
+func GetStudentFromID(studentID: String, completionHandler: @escaping (String) -> Void) {
+    
+    var name = ""
+    
+    var found = false
+    
+    let sheetID = "15TOeP3XHdtawq5dk3czlgJ_r9Ysl3LoiEZ0vvVylCnU"
+    
+    let startRange = 1
+    let endRange = 200
+    
+    let range = "A\(startRange):B\(endRange)"
+    
+    let header : HTTPHeaders = ["Authorization":"Bearer \(bToken)"]
+    let requestURL = "https://sheets.googleapis.com/v4/spreadsheets/\(sheetID)/values/\(range)"
+    AF.request(requestURL, method: .get, parameters:nil,encoding: JSONEncoding.default,headers: header).responseJSON { response in
+        //print("Request: \(String(describing: response.request))")
+        //print("Response: \(String(describing: response.response))")
+        //print("Error: \(String(describing: response.error))")
+        
+        let json = response.value as! NSDictionary
+        
+
+        
+        if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+            
+            if utf8Text.contains("values"){
+                let values = json["values"] as! NSArray
+                let valuesSize = values.count
+                
+                print("Value size:")
+                print(valuesSize)
+                
+                
+                let objCArray = NSMutableArray(array: values)
+                
+                var arr : [[String]] = []
+
+                if let swiftArray = objCArray as? [[String]] {
+
+                    arr = swiftArray
+                }
+                
+                for a in arr{
+                    
+                    if a.first == String(studentID){
+                        name = a.last!
+                        found = true
+                    }
+                    
+                    if found { break }
+                    
+                }
+                
+                if found {
+                    completionHandler(name)
+                }else{
+                    completionHandler("")
+                }
+                
+                                
+            }else{
+                //First row is empty
+                print("Does not contain")
+                
+            }
+            
+        }
+        
+    }
+   
+    
+    
+}
+
 
 struct QuestionZeroView: View {
     
