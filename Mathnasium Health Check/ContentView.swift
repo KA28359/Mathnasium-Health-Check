@@ -15,6 +15,7 @@ import SwiftJWT
 import Alamofire
 import GoogleAPIClientForREST
 import GoogleSignIn
+import Combine
 
 struct MyClaims: Claims {
     var iss: String
@@ -171,16 +172,52 @@ func readCells(stuName: String, responseArray: (String, String, String, String, 
     
 }
 
+class NumbersOnly: ObservableObject {
+    @Published var value = "" {
+        didSet {
+            let filtered = value.filter { $0.isNumber }
+            
+            if value != filtered {
+                value = filtered
+            }
+        }
+    }
+}
+
+struct OvalTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .frame(height: 55)
+                .textFieldStyle(PlainTextFieldStyle())
+                .padding([.horizontal], 4)
+                .cornerRadius(50)
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray))
+                .padding([.horizontal], 24)
+            .foregroundColor(.white)
+            .font(Font.system(size: 20))
+            .multilineTextAlignment(.center)
+    }
+}
+
+
 struct LoginView: View {
     
     @State var exit = false
     @EnvironmentObject var view: ViewOptions
     @Environment(\.colorScheme) var colorScheme
-    @State private var stuName = ""
+    //@State private var stuName = ""
+    
+    @ObservedObject var stuName = NumbersOnly()
     
     @ObservedObject var settings = UserSettings()
     
     @State private var showingAlert = false
+    
+    func limitText(_ upper: Int) {
+        if stuName.value.count > upper {
+            stuName.value = String(stuName.value.prefix(upper))
+            }
+        }
     
     var body: some View {
         VStack {
@@ -191,23 +228,34 @@ struct LoginView: View {
                     //.animation(.spring())
                     //.transition(.slide)
             }else{
+                
+                Spacer()
+                
+                Text("Mathnasium\n Health Check")
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                    .font(Font.system(size: UIScreen.main.bounds.size.height/15))
+                    .multilineTextAlignment(.center)
             
             Spacer()
             
                 TextField(
-                    "Student Name",
-                    text: $stuName)
+                    "Student ID",
+                    text: $stuName.value)
+                    .keyboardType(.decimalPad)
                     .disableAutocorrection(true)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(width:UIScreen.main.bounds.size.width*4/5,height:40)
+                    .textFieldStyle(OvalTextFieldStyle())
+                    //.frame(width:UIScreen.main.bounds.size.width*4/5,height:40)
+                    .onReceive(Just(stuName.value)) { _ in limitText(6) }
+                    
             
+                
             Spacer()
             
                 Button(action: {
                     //view.showLoginView = false
 //                    view.studentName = GetStudentFromID(studentID: stuName)
                     
-                    GetStudentFromID(studentID: stuName){ name in
+                    GetStudentFromID(studentID: stuName.value){ name in
                         
                         view.studentName = name
                         
@@ -234,11 +282,11 @@ struct LoginView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding()
                     .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
-                    .background(stuName == "" ? Color.gray : Color.red)
+                    .background(stuName.value == "" ? Color.gray : Color.red)
                     .cornerRadius(40)
                     .padding(.horizontal, 20)
                     
-                }.disabled(stuName == "")
+                }.disabled(stuName.value == "")
                 .alert(isPresented: $showingAlert) {
                             Alert(title: Text("Student ID not found"), message: Text("The ID you entered was not found. Please try again."), dismissButton: .default(Text("Got it!")))
                 }
