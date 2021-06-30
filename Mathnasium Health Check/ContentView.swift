@@ -193,7 +193,6 @@ struct OvalTextFieldStyle: TextFieldStyle {
                 .cornerRadius(50)
                 .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray))
                 .padding([.horizontal], 24)
-            .foregroundColor(.white)
             .font(Font.system(size: 20))
             .multilineTextAlignment(.center)
     }
@@ -244,6 +243,7 @@ struct LoginView: View {
                     .keyboardType(.decimalPad)
                     .disableAutocorrection(true)
                     .textFieldStyle(OvalTextFieldStyle())
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                     //.frame(width:UIScreen.main.bounds.size.width*4/5,height:40)
                     .onReceive(Just(stuName.value)) { _ in limitText(6) }
                     
