@@ -204,17 +204,17 @@ struct LoginView: View {
     @State var exit = false
     @EnvironmentObject var view: ViewOptions
     @Environment(\.colorScheme) var colorScheme
-    //@State private var stuName = ""
+    @State private var stuName = ""
     
-    @ObservedObject var stuName = NumbersOnly()
+//    @ObservedObject var stuName = NumbersOnly()
     
     @ObservedObject var settings = UserSettings()
     
     @State private var showingAlert = false
     
     func limitText(_ upper: Int) {
-        if stuName.value.count > upper {
-            stuName.value = String(stuName.value.prefix(upper))
+        if stuName.count > upper {
+            stuName = String(stuName.prefix(upper))
             }
         }
     
@@ -239,13 +239,14 @@ struct LoginView: View {
             
                 TextField(
                     "Student ID",
-                    text: $stuName.value)
-                    .keyboardType(.decimalPad)
+                    text: $stuName)
+                    //.keyboardType(.decimalPad)
                     .disableAutocorrection(true)
                     .textFieldStyle(OvalTextFieldStyle())
                     .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                    
                     //.frame(width:UIScreen.main.bounds.size.width*4/5,height:40)
-                    .onReceive(Just(stuName.value)) { _ in limitText(6) }
+                    .onReceive(Just(stuName)) { _ in limitText(6) }
                     
             
                 
@@ -255,7 +256,7 @@ struct LoginView: View {
                     //view.showLoginView = false
 //                    view.studentName = GetStudentFromID(studentID: stuName)
                     
-                    GetStudentFromID(studentID: stuName.value){ name in
+                    GetStudentFromID(studentID: stuName.uppercased()){ name in
                         
                         view.studentName = name
                         
@@ -282,11 +283,11 @@ struct LoginView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding()
                     .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
-                    .background(stuName.value == "" ? Color.gray : Color.red)
+                    .background(stuName == "" ? Color.gray : Color.red)
                     .cornerRadius(40)
                     .padding(.horizontal, 20)
                     
-                }.disabled(stuName.value == "")
+                }.disabled(stuName == "")
                 .alert(isPresented: $showingAlert) {
                             Alert(title: Text("Student ID not found"), message: Text("The ID you entered was not found. Please try again."), dismissButton: .default(Text("Got it!")))
                 }
