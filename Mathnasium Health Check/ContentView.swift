@@ -198,6 +198,12 @@ struct OvalTextFieldStyle: TextFieldStyle {
     }
 }
 
+class Connectivity {
+    class var isConnectedToInternet:Bool {
+        return NetworkReachabilityManager()?.isReachable ?? false
+    }
+}
+
 
 struct LoginView: View {
     
@@ -211,6 +217,7 @@ struct LoginView: View {
     @ObservedObject var settings = UserSettings()
     
     @State private var showingAlert = false
+    @State private var showingAlertInternet = false
     
     func limitText(_ upper: Int) {
         if stuName.count > upper {
@@ -255,10 +262,13 @@ struct LoginView: View {
                 Button(action: {
                     //view.showLoginView = false
 //                    view.studentName = GetStudentFromID(studentID: stuName)
-                    
+                    if Connectivity.isConnectedToInternet{
+                        
                     GetStudentFromID(studentID: stuName.uppercased()){ name in
                         
                         view.studentName = name
+                        
+                        showingAlertInternet = false
                         
                         if(view.studentName != ""){
                             showingAlert = false
@@ -271,6 +281,10 @@ struct LoginView: View {
                             showingAlert = true
                         }
                         
+                    }
+                    
+                    }else{
+                        showingAlertInternet = true
                     }
                     
                     
@@ -290,7 +304,13 @@ struct LoginView: View {
                 }.disabled(stuName == "")
                 .alert(isPresented: $showingAlert) {
                             Alert(title: Text("Student ID not found"), message: Text("The ID you entered was not found. Please try again."), dismissButton: .default(Text("Got it!")))
+                    
                 }
+                .alert(isPresented: $showingAlertInternet) {
+                            Alert(title: Text("No Internet Connection"), message: Text("You are not connected to the internet. Please connect to the internet and try again."), dismissButton: .default(Text("Got it!")))
+                    
+                }
+                
             
             Spacer()
            }
@@ -1747,6 +1767,7 @@ struct QuestionTenView: View {
     @State private var didTapNo:Bool = false
     @State private var didTapYes:Bool = false
     @State private var eval:Bool = false
+    @State private var showingAlertInternet = false
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -1856,6 +1877,10 @@ struct QuestionTenView: View {
                         
             Button(action: {
                 
+                if Connectivity.isConnectedToInternet{
+                
+                    showingAlertInternet = false
+                    
                 if(didTapYes){
                     view.responses.10 = "yes"
                     view.recivedYes = true
@@ -1865,6 +1890,10 @@ struct QuestionTenView: View {
                 
                 eval = true
                 updateVals(stuName: view.studentName!, responseArray: view.responses)
+                
+                }else{
+                    showingAlertInternet = true
+                }
                 
                 }){
                 HStack {
@@ -1879,6 +1908,10 @@ struct QuestionTenView: View {
                 .cornerRadius(40)
                 .padding(.horizontal, 20)
             }.disabled(didTapNo == false && didTapYes == false)
+            .alert(isPresented: $showingAlertInternet) {
+                        Alert(title: Text("No Internet Connection"), message: Text("You are not connected to the internet. Please connect to the internet and try again."), dismissButton: .default(Text("Got it!")))
+                
+            }
             
             Spacer()
         }
